@@ -2,6 +2,7 @@ package com.javaex.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,17 +17,20 @@ import com.javaex.vo.PersonVo;
 @RequestMapping(value = "/phone")
 public class PhoneController {
 
+	@Autowired
+	private PhoneDao phoneDao; //=new PhoneDao(); -->스프링해준다
+	
 	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
 	public String list(Model model) {
 
-		PhoneDao phone = new PhoneDao();
-		List<PersonVo> personList = phone.getPersonList();
+		
+		List<PersonVo> personList = phoneDao.getPersonList();
 
 		model.addAttribute("psersonList", personList);
 
 		return "list";
 	}
-
+/*
 	@RequestMapping(value = "/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String writeForm() {
 
@@ -36,8 +40,8 @@ public class PhoneController {
 	@RequestMapping(value = "/write", method = { RequestMethod.GET, RequestMethod.POST })
 	public String write(@ModelAttribute PersonVo personVo) {
 
-		PhoneDao phone = new PhoneDao();
-		phone.personInsert(personVo);
+		
+		phoneDao.personInsert(personVo);
 
 		return "redirect:/phone/list";
 	}
@@ -45,8 +49,8 @@ public class PhoneController {
 	@RequestMapping(value = "/updateForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String updateForm(Model model, @RequestParam("personId") int personId) {
 
-		PhoneDao phone = new PhoneDao();
-		PersonVo personVo = phone.getPerson(personId);
+		
+		PersonVo personVo = phoneDao.getPerson(personId);
 		model.addAttribute("personVo", personVo);
 
 		return "updateForm";
@@ -55,8 +59,8 @@ public class PhoneController {
 	@RequestMapping(value = "/update", method = { RequestMethod.GET, RequestMethod.POST })
 	public String update(@ModelAttribute PersonVo personVo) {
 
-		PhoneDao phone = new PhoneDao();
-		phone.personUpdate(personVo);
+		
+		phoneDao.personUpdate(personVo);
 
 		return "redirect:/phone/list";
 	}
@@ -64,10 +68,10 @@ public class PhoneController {
 	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
 	public String delete(@RequestParam("personId") int personId) {
 
-		PhoneDao phone = new PhoneDao();
-		phone.personDelete(personId);
+	
+		phoneDao.personDelete(personId);
 
 		return "redirect:/phone/list";
 	}
-
+*/
 }
